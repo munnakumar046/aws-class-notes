@@ -1,0 +1,140 @@
+Elastic BeanStalk
+==================
+AWS Elastic Beanstalk is an AWS-managed service for web applications.
+
+Elastic Beanstalk is a Platform As A Service (PAAS) as it allows users to directly use a pre-configured server for their application.
+
+First, create an application and select an environment, configure the environment, and deploy the application.
+
+
+
+Steps to deploy war file in Tomcat server using Elastic BeanStalk
+==================================================================
+
+
+step1:
+------
+	Create a Dynamic web application i.e AWSApp. 
+
+Deployment Directory Structure 
+==============================
+
+AWSApp
+|
+|---Java Resources
+|
+|---WebContent
+	|
+	|---index.jsp
+	|
+	|---WEB-INF
+		|
+		|------web.xml 
+		|
+		|------lib
+			|
+			|---servlet-api.jar
+Note:
+-----
+In above application we need to add "servlet-api.jar" file in project build path.
+
+
+index.jsp
+---------
+<center>
+	<h1>
+		Current Date and Time : <br>
+		<%
+			java.util.Date d=new java.util.Date();
+				
+			out.println(d);
+		%>
+	</h1>
+</center>
+
+web.xml
+-------
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  
+  <welcome-file-list>
+  	<welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+</web-app>
+
+step2:
+------
+	Convert dynamic project to war file.
+
+step3:
+------
+	Upload the war file in AWS cloud server.
+
+
+Amazon S3
+============
+Amazon S3 (Simple Storage Service) provides object storage, which is built for storing and recovering any amount of information or data from anywhere over the internet. 
+
+step1:
+-------
+	Create a spring boot project.
+
+AWSProjectApplication.java
+--------------------------
+package com.ihub.www;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@SpringBootApplication
+@RestController
+public class AwsProjectApplication {
+	
+	@GetMapping("/home")
+	public String home()
+	{
+		return " I love spring boot with AWS";
+	}
+
+	public static void main(String[] args) {
+		SpringApplication.run(AwsProjectApplication.class, args);
+	}
+
+}
+
+
+application.properties
+----------------------
+server.port=9090
+
+
+
+step2:
+-----
+	Convert spring boot project to jar file.
+	ex:
+		Right click to spring boot project --> Run as --> Maven Build -->
+		Goal : package --> Finish.
+
+
+step3:
+------	
+	Goto S3 service in AWS and create a bucket to upload the jar file.
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
